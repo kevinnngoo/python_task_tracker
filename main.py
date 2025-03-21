@@ -1,5 +1,5 @@
 #Python Task Tracker
-
+import json
 # The application should run from the command line, accept user actions and inputs as arguments, and store the tasks in a JSON file. The user should be able to:
 
 # Add, Update, and Delete tasks
@@ -25,3 +25,18 @@ def add_task():
         "status": status,
         "is_completed": is_completed
     }
+
+
+#write a function called load_tasks() to read the tasks from the JSON file to 
+#fill your tasks list.
+
+def load_tasks():
+    with open("tasks.json", "r") as file:
+        tasks = json.load(file)
+        return tasks
+    
+#write a function called save_tasks to save the tasks to the JSON file.
+
+def save_tasks():
+    with open("tasks.json", "w") as file:
+        json.dump(tasks, file)
