@@ -72,17 +72,21 @@ class UIManager:
             print(f"\nError: {str(e)}")
             print("Task was not added. Please try again.")
 
-    def view_tasks(self):
+    def view_tasks(self, status_filter=None):
+        # Get the list of tasks once
         tasks = self.task_manager.get_tasks()
+
         print("\nTasks:")
         for i, task in enumerate(tasks, 1):
+            # Apply filter if set
+            if status_filter and task["status"] != status_filter:
+                continue
             print(f"\nTask {i}:")
             print(f"Title: {task['title']}")
             print(f"Description: {task['description']}")
             print(f"Due Date: {task['due_date']}")
             print(f"Status: {task['status']}")
             print(f"Completed: {task['is_completed']}")
-            print()
 
     def update_tasks(self):
         self.view_tasks()
@@ -95,10 +99,19 @@ class UIManager:
         self.task_manager.update_task(index, update_part, new_value)
 
     def delete_tasks(self):
-        self.view_tasks()
-        choose_task = int(input("Enter the number of the task you want to delete: "))
-        index = choose_task - 1
-        self.task_manager.delete_task(index)
+        try:
+            self.view_tasks()
+            choose_task = self.get_valid_input(
+                "Enter the number of the task you want to delete: ",
+                lambda x: 1 <= int(x) <= len(self.task_manager.get_tasks()),
+                "Invalid task number"
+            )
+            index = int(choose_task) - 1
+            self.task_manager.delete_task(index)
+            print("\nTask deleted successfully!")
+        except Exception as e:
+            print(f"\nError: {str(e)}")
+            print("Task was not deleted. Please try again.")
 
     def run(self):
         while True:
@@ -134,4 +147,7 @@ class UIManager:
                 print("Please enter a valid number.")
             except IndexError:
                 print("Invalid task number. Please try again.")
+
+
+
 
