@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Application data
+tasks.json
+
+# Environment
+.env
+venv/
