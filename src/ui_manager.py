@@ -72,13 +72,35 @@ class UIManager:
             print(f"\nError: {str(e)}")
             print("Task was not added. Please try again.")
 
+
+
     def view_tasks(self, status_filter=None):
-        # Get the list of tasks once
-        tasks = self.task_manager.get_tasks()
+        """
+        Displays tasks with optional sorting and filtering.
+        
+        Parameters:
+            status_filter: Optional filter to show only tasks with specific status
+        
+        Options:
+            1. Default order (as stored)
+            2. Sorted by due date (ascending)
+            3. Sorted by due date (descending)
+        """
+        print("\nChoose how to view tasks:")
+        print("1. Default order")
+        print("2. By due date (earliest first)")
+        print("3. By due date (latest first)")
+        view_choice = int(input("Enter your choice (1, 2, or 3): "))
+
+        if view_choice == 2:
+            tasks = self.task_manager.get_tasks_by_due_dates('asc')
+        elif view_choice == 3:
+            tasks = self.task_manager.get_tasks_by_due_dates('desc')
+        else:
+            tasks = self.task_manager.get_tasks()
 
         print("\nTasks:")
         for i, task in enumerate(tasks, 1):
-            # Apply filter if set
             if status_filter and task["status"] != status_filter:
                 continue
             print(f"\nTask {i}:")
@@ -147,6 +169,7 @@ class UIManager:
                 print("Please enter a valid number.")
             except IndexError:
                 print("Invalid task number. Please try again.")
+
 
 
 
