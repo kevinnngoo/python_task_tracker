@@ -63,3 +63,20 @@ class TaskManager:
     def get_tasks(self):
         return self.tasks
 
+    #method that returns tasks if they match the priority, if there's
+    # no priority is given, it returns all tasks
+    def get_tasks_by_priority(self, priority= None):
+        if priority is None:
+            return self.tasks
+        return [task for task in self.tasks if task['priority'] == priority]
+
+    # Sorts tasks by due date
+    # Parameters:
+    #   sort_order: 'asc' for ascending (earliest first), 'desc' for descending (latest first)
+    # Returns: sorted list of tasks
+    def get_tasks_by_due_dates(self, sort_order='asc'):
+        sorted_tasks = sorted(self.tasks, key=lambda x: x['due_date'])
+        if sort_order == 'desc':
+            sorted_tasks.reverse()
+        return sorted_tasks
+        
